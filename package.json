@@ -1,0 +1,17 @@
+{
+  "name": "analytics",
+  "version": "0.0.0",
+  "description": "Google analytics for node and browser",
+  "main": "index.js",
+  "readmeFilename": "README.md",
+  "scripts": {
+    "test": "mocha test"
+  },
+  "repository": "",
+  "author": "",
+  "license": "BSD",
+  "dependencies": {
+    "ga": "0.0.2"
+  },
+  "devDependencies": {}
+}
