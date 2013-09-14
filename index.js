@@ -7,8 +7,6 @@
 /*global alert */
 /*global _gaq */
 
-
-
 var setup = false;
 var ua = "UA-38794735-1";
 var host = 'collaborlist.com';
