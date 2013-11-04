@@ -11,7 +11,7 @@
   "author": "",
   "license": "BSD",
   "dependencies": {
-    "ga": "0.0.2"
+    "ga": "0.0.x"
   },
   "devDependencies": {}
 }
