@@ -7,18 +7,17 @@
 /*global alert */
 /*global _gaq */
 
+var visitor;
 
 exports.setup = function(trackingId, host){
   if(typeof window ==='undefined')
   {
-    var GoogleAnalytics = require('ga');
-    ga = new GoogleAnalytics(trackingId, host);
+      var ua = require('universal-analytics');
+     visitor = ua(trackingId);
   }
   else
   {
-    window._gaq = window._gaq || [];
-    window._gaq.push(['_setAccount', trackingId]);
-    window._gaq.push(['_trackPageview']);
+    ga('create', trackingId);
   }
 };
 
@@ -30,12 +29,11 @@ exports.trackEvent = function(category, action, label, value){
   {
     if(typeof window ==='undefined')
     {
-      ga.trackEvent({category: category, action: action, label: label, value: value});
+
     }
     else
     {
-      var pushArgs = ['_trackEvent'].concat(arguments);
-      window._gaq.push(pushArgs);
+      ga.send(category, action, label, value);
     }
   }
 };
