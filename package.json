@@ -8,7 +8,10 @@
     "test": "mocha test",
     "link": "rm -R node_modules; npm link"
   },
-  "repository": "",
+    "repository": {
+    "type": "git",
+    "url": "git://github.com/jamesjwood/analytics.git"
+  },
   "author": "",
   "license": "BSD",
   "dependencies": {
