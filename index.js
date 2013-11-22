@@ -5,37 +5,55 @@
 /*global require */
 /*global confirm */
 /*global alert */
-/*global _gaq */
+/*global ga */
 
 var visitor;
 
 exports.setup = function(trackingId, host){
   if(typeof window ==='undefined')
   {
-      var ua = require('universal-analytics');
-     visitor = ua(trackingId);
+    var ua = require('universal-analytics');
+    visitor = ua(trackingId);
   }
   else
   {
-    ga('create', trackingId);
+    window['GoogleAnalyticsObject']='ga';
+    window['ga']=window['ga'] || function(){
+      (window['ga'].q=window['ga'].q||[]).push(arguments)
+    },
+    window['ga'].l=1*new Date();
+    ga('create', trackingId, host);
   }
 };
 
+exports.setDimension = function setDimension(dimension, dimensionValue){
+  ga('set', dimension, dimensionValue);
+};
 
 exports.trackEvent = function(category, action, label, value){
   "use strict";
-  console.log('tracking with ga: ' + category + action + label);
-  if(process.env.ENVIRONMENT === 'production')
-  {
+  
+  //if(process.env.ENVIRONMENT === 'production')
+  //{
+  
+    
+    if(console)
+    {
+      var m = 'tracking with ga: ' + Array.prototype.join.call(arguments);
+      console.log(m);
+    }    
     if(typeof window ==='undefined')
     {
-
+      visitor.event(category, action, label, value);
     }
     else
     {
-      ga.send(category, action, label, value);
+      if(ga)
+      {
+        ga('send', category, action, label, value);
+      }
     }
-  }
+  //}
 };
 
 
