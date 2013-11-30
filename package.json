@@ -15,8 +15,7 @@
   "author": "",
   "license": "BSD",
   "dependencies": {
-    "ga": "0.0.x",
-    "universal-analytics": "~0.3.0"
+    "universal-analytics": "0.3.x"
   },
   "devDependencies": {}
 }
