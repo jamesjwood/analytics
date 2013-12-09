@@ -6,56 +6,115 @@
 /*global confirm */
 /*global alert */
 /*global ga */
+var utils = require('utils');
+var events = require('events');
 
-var visitor;
+var node = (typeof window ==='undefined');
 
-var _trackingId;
-var _host
 
-exports.setup = function(trackingId, host){
-   _trackingId = trackingId;
-   _host = host;
-  if(typeof window ==='undefined')
+
+
+
+module.exports = function(trackingId, opts){
+  "use strict";
+  utils.is.string(trackingId);
+  var that = new events.EventEmitter();
+  var log = utils.log(that);
+
+  var opts = opts || {};
+  var uuid = opts.uuid || utils.uuid();
+  var appName = opts.appName || 'none';
+  var appVersion = opts.appVersion || 'none';
+
+  var params = {};
+
+  var visitor;
+
+  if(node)
   {
     var ua = require('universal-analytics');
     visitor = ua(trackingId);
+    params.an = appName;
+    params.av = appVersion;
   }
   else
   {
-    window['GoogleAnalyticsObject']='ga';
-    window['ga']=window['ga'] || function(){
-      (window['ga'].q=window['ga'].q||[]).push(arguments)
-    },
-    window['ga'].l=1*new Date();
-    ga('create', trackingId, host);
+    ga('create', trackingId, {
+        'storage': 'none',
+        'clientId': uuid,
+        'siteSpeedSampleRate': 100
+    });
+    //ga('set', 'appName', appName);
   }
-};
 
-/*
-exports.setDimension = function setDimension(dimension, dimensionValue){
-  ga('set', dimension, dimensionValue);
-};
-*/
+  that.captureErrors = function(fromLog, then){
+    var oldError = fromLog.error;
 
-exports.trackEvent = function(category, action, label, value){
-  "use strict";
-    if(typeof window ==='undefined')
+    fromLog.error = function newError(error, path) {
+        oldError.apply(this, arguments);
+        if (path) {
+            errr.path = path;
+        }
+        that.error(error, function() {
+            then(error);
+        });
+    };
+  }
+
+
+  that.setDimension = function setDimension(dimensionName, dimensionValue){
+    ga('set', dimensionName, dimensionValue);
+  };
+
+
+that.event = function send(category, action, label, value, callback){
+    log('sending to ' + trackingId + ", " + category + ", " + action + ", " + label + ", " + value);
+    if(node)
     {
-      visitor.event(category, action, label, value);
+      visitor.event(category, action, label, value, params, function(error){
+        if(error)
+        {
+          log.warn('failed to send ga to ' + _trackingId);
+          log.error(error);
+        }
+        else
+        {
+          log.info('sent ga to ' + trackingId + ", " + category + ", " + action + ", " + label + ", " + value);
+        }
+        if(callback)
+        {
+          callback();
+        }
+      });
     }
     else
     {
       if(ga)
       {
-        if(console)
+        ga('send', 'event', category, action, label, value);
+        log.info('sent ga to ' + trackingId + ", " + category + ", " + action + ", " + label + ", " + value);
+        if(callback)
         {
-          console.log('TRACK: ' + category + ", " + JSON.stringify(action) + ", " + label + ", " + value  + " to " + _host + _trackingId);
+          callback();
         }
-        ga('send', category, action, label, value);
       }
     }
 };
+ 
+that.pageView = function pageView(page, title, queryString){
+  log.info('pageView: ' + trackingId + ", " + page + ", " + title);
+  that.setDimension('dimension2', queryString);
+  ga('send', 'pageview', {'page': page,'title': title});
+};
 
+that.error = function error(error, callback){
+  var message = error.message || '(no message)';
+  var path = error.path || '(no path)';
+  that.send('error', message, JSON.stringify(error), null, callback);
+};
+
+  return that;
+};
 
 
 
