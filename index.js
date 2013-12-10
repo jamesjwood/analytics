@@ -30,6 +30,10 @@ module.exports = function(trackingId, opts){
 
   var visitor;
 
+  that.setDimension = function setDimension(dimensionName, dimensionValue){
+    ga('set', dimensionName, dimensionValue);
+  };
+
   if(node)
   {
     var ua = require('universal-analytics');
@@ -44,7 +48,7 @@ module.exports = function(trackingId, opts){
         'clientId': uuid,
         'siteSpeedSampleRate': 100
     });
-    //ga('set', 'appName', appName);
+    that.setDimension('dimension1', appVersion);
   }
 
   that.captureErrors = function(fromLog, then){
@@ -53,19 +57,13 @@ module.exports = function(trackingId, opts){
     fromLog.error = function newError(error, path) {
         oldError.apply(this, arguments);
         if (path) {
-            errr.path = path;
+            error.path = path;
         }
         that.error(error, function() {
             then(error);
         });
     };
-  }
-
-
-  that.setDimension = function setDimension(dimensionName, dimensionValue){
-    ga('set', dimensionName, dimensionValue);
   };
-
 
 that.event = function send(category, action, label, value, callback){
     log('sending to ' + trackingId + ", " + category + ", " + action + ", " + label + ", " + value);
@@ -110,7 +108,7 @@ that.pageView = function pageView(page, title, queryString){
 that.error = function error(error, callback){
   var message = error.message || '(no message)';
   var path = error.path || '(no path)';
-  that.send('error', message, JSON.stringify(error), null, callback);
+  that.event('error', message, JSON.stringify(error), null, callback);
 };
 
   return that;

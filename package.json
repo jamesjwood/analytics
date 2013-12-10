@@ -8,7 +8,7 @@
     "test": "mocha test",
     "link": "rm -R node_modules; npm link"
   },
-    "repository": {
+  "repository": {
     "type": "git",
     "url": "git://github.com/jamesjwood/analytics.git"
   },
@@ -17,5 +17,18 @@
   "dependencies": {
     "universal-analytics": "0.3.x"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "grunt": "0.4.x",
+    "grunt-simple-mocha": "0.4.x",
+    "grunt-shell": "0.5.x",
+    "grunt-contrib-jshint": "0.7.x",
+    "grunt-contrib-watch": "0.5.x",
+    "grunt-karma": "0.6.x",
+    "karma-mocha": "0.1.x",
+    "browserify": "2.35.x",
+    "karma-safari-launcher": "0.1.x",
+    "matchdep": "0.3.x",
+    "grunt-bumpup": "0.4.x",
+    "grunt-jsbeautifier": "0.2.x"
+  }
 }
