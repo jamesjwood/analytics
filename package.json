@@ -1,6 +1,6 @@
 {
   "name": "analytics",
-  "version": "0.0.0-2",
+  "version": "0.0.0-6",
   "description": "Google analytics for node and browser",
   "main": "index.js",
   "readmeFilename": "README.md",

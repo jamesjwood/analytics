@@ -89,6 +89,6 @@ module.exports = function(grunt) {
 
 
     grunt.registerTask('test', ['jshint']);
-    grunt.registerTask('development', ['bumpup:prerelease']);
-    grunt.registerTask('production', ['bump:patch']);
+    grunt.registerTask('development', []);
+    grunt.registerTask('production', []);
 };

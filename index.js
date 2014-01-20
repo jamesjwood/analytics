@@ -17,7 +17,7 @@ var node = (typeof window === 'undefined');
 
 module.exports = function(trackingId, opts) {
     "use strict";
-    utils.is.string(trackingId);
+    utils.is.string(trackingId, 'trackingId');
     var that = new events.EventEmitter();
     var log = utils.log(that);
 
@@ -67,7 +67,7 @@ module.exports = function(trackingId, opts) {
         if (node) {
             visitor.event(category, action, label, value, params, function(error) {
                 if (error) {
-                    log.warn('failed to send ga to ' + _trackingId);
+                    log.warn('failed to send ga to ' + trackingId);
                     log.error(error);
                 } else {
                     log.info('sent ga to ' + trackingId + ", " + category + ", " + action + ", " + label + ", " + value);
