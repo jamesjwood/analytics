@@ -6,7 +6,7 @@
   "readmeFilename": "README.md",
   "scripts": {
     "test": "mocha test",
-    "link": "rm -R node_modules; npm link"
+    "link": "rm -R node_modules; npm link getWatchers; npm link utils; npm link"
   },
   "repository": {
     "type": "git",
@@ -15,6 +15,7 @@
   "author": "",
   "license": "BSD",
   "dependencies": {
+    "utils": "git://github.com/jamesjwood/utils.git",
     "universal-analytics": "0.3.x"
   },
   "devDependencies": {
