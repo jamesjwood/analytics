@@ -6,7 +6,7 @@
 /*global confirm */
 /*global alert */
 /*global ga */
-var utils = require('utils');
+var utils = require('tsuju-utils');
 var events = require('events');
 
 var node = (typeof window === 'undefined');

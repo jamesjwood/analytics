@@ -1,5 +1,5 @@
 {
-  "name": "analytics",
+  "name": "tsuju-analytics",
   "version": "0.0.0-6",
   "description": "Google analytics for node and browser",
   "main": "index.js",
@@ -15,7 +15,7 @@
   "author": "",
   "license": "BSD",
   "dependencies": {
-    "utils": "git://github.com/jamesjwood/utils.git",
+    "tsuju-utils": "x",
     "universal-analytics": "0.3.x"
   },
   "devDependencies": {
